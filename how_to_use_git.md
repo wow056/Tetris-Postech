@@ -15,7 +15,7 @@ Git 및 GitLab 사용 방법: 강민수 작성
 
  3. 다음과 같이 입력하면 생성된 ssh key가 클립보드에 복사됩니다.  
     `cat ~/.ssh/id_rsa.pub | clip`  
- 4. <https://gihub.com/> 사이트에 들어가 **설정>SSH키**에 들어갑니다.
+ 4. <https://github.com/> 사이트에 들어가 **설정>SSH키**에 들어갑니다.
  5. 복사한 ssh key 를 key 란에 붙여넣고 **키 추가**를 누릅니다.
  6. **git bash**에서 다음과 같이 입력해주세요.  
     `ssh -T git@github.com`  
