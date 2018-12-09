@@ -16,7 +16,8 @@ struct Block{
 
 struct Piece
 {
-    Piece(int shape, int color);
+	Piece(int shape, int color)
+		:shape(shape), color(color) {}
     Coordinate pos;
     Coordinate blocks[4];
     int shape;
