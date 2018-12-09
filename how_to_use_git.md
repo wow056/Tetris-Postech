@@ -5,7 +5,7 @@ Git 및 GitLab 사용 방법: 강민수 작성
 ## 2. SSH Key 업로드
 1. 시작 메뉴에서 **git bash**를 찾아 실행해주세요
 2. 다음과 같이 입력해주세요  
-    `ssh-keygen -t rsa -C "GitHub" -b`
+    `ssh-keygen -t rsa -C "GitHub"`
 
     passpharse를 입력하라는 부분은 공란으로 두고, y/n으로 물어볼 땐 y를 입력하면 됩니다.  
     `Generating public/private rsa key pair.`  
