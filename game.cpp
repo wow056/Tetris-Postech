@@ -63,6 +63,26 @@ bool Game::isBlockDrop() const
 	return false;
 }
 
+bool Game::isBlockMove(int direction) const
+{
+	return false;
+}
+
+bool Game::isBlockRotate(int direction) const
+{
+	return false;
+}
+
+bool Game::isBlockEnd() const
+{
+	return false;
+}
+
+bool Game::isLineComplete() const
+{
+	return false;
+}
+
 void Game::deleteLine()
 {
 	qDebug() << "entering:	Game::deleteLine";
