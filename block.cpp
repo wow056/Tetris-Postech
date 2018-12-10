@@ -102,6 +102,23 @@ bool Piece::isOverlapped(Coordinate block_pos)
 	return false;
 }
 
+bool Piece::isOverlapped(int line_pos, int coordinate_type)
+{
+	for (int i = 0; i < 4; i++)
+	{
+		switch (coordinate_type)
+		{
+		case X_COORDINATE:
+			if (_pos.x+_blocks[i].x == line_pos)
+				return true;
+		case Y_COORDINATE:
+			if (_pos.y+_blocks[i].y == line_pos)
+				return true;
+		}
+	}
+	return false;
+}
+
 QList<Block> Piece::blocks()
 {
 	QList<Block> b_list;

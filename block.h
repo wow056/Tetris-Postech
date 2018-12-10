@@ -36,13 +36,15 @@ public:
 	enum {CW, CCW};
 	enum {LEFT, RIGHT};
 	enum SHAPE {SHAPE_I, SHAPE_O, SHAPE_Z, SHAPE_S, SHAPE_J, SHAPE_L, SHAPE_T };
+	enum {X_COORDINATE, Y_COORDINATE};
 
     Piece();
     void rotate(int direction);
 	void left();
 	void right();
 	void down();
-    bool isOverlapped(Coordinate block_pos);
+    bool isOverlapped(Coordinate block_pos); //check if this piece is overapped by a block
+	bool isOverlapped(int line_pos, int coordinate_type); //check if this piece is overapped by a line
     QList<Block> blocks();
 private:
 	static const int middle_x = 10;
