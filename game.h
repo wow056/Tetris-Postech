@@ -13,6 +13,7 @@ class Game: public QObject
 public:
     Game(QObject *parent = nullptr);
 	void setInput(int input);	//mainwindow에서 KeyEvent 발생 시 호출해주세요.
+	const static Coordinate board_size;
 private slots:
 	void update(); //time interval이 지난 후에 실행되는 함수
 signals:
@@ -22,13 +23,12 @@ signals:
     void sendScore(int);
 private:
     bool isGameover() const;
-    bool isBlockDrop() const;
+    bool isBlockDroppable() const;
     bool isBlockMove(int direction) const;
     bool isBlockRotate(int direction) const;
-    bool isBlockEnd() const;
-    bool isLineComplete() const;
+    int findCompleteLine() const;
 
-    void deleteLine();					//함수 마지막에 putOutput 함수 호출
+    void deleteLine(int line_index);					//함수 마지막에 putOutput 함수 호출
     void setBlockDrop(); 				//함수 마지막에 putOutput 함수 호출
     void setBlockMove(int direction);	//함수 마지막에 putOutput 함수 호출
     void setBlockRotate(int direction);	//함수 마지막에 putOutput 함수 호출

@@ -1,6 +1,6 @@
 #include "game.h"
 
-
+const Coordinate Game::board_size = Coordinate(20, 50);
 
 Game::Game(QObject *parent)
 	:QObject(parent),
@@ -45,12 +45,16 @@ void Game::setInput(int input)
 
 void Game::update()
 {
+	int deleteLineIndex;
 	qDebug() << "entering:	Game::update";
     putOutput(); // 테스트용,곧 지울 예정입니다
-    if (isBlockDrop())
+	if (isBlockDroppable())
 		setBlockDrop();
-	if (isLineComplete())
-		deleteLine();
+	else
+		saveBlock();
+	deleteLineIndex = findCompleteLine();
+	if (deleteLineIndex >= 0)
+		deleteLine(deleteLineIndex);
 	qDebug() << "exiting:	Game::update";
 }
 
@@ -59,32 +63,114 @@ bool Game::isGameover() const
 	return false;
 }
 
-bool Game::isBlockDrop() const
+bool Game::isBlockDroppable() const
 {
-	return false;
+	Piece tester = currentPiece;
+	tester.down();
+	for (auto it = savedBlocks.begin(); it != savedBlocks.end(); it++)
+	{
+		if (tester.isOverlapped(it->pos))
+			return false;
+	}
+	if (tester.isOverlapped(0, Piece::X_COORDINATE))
+	{
+		return false;
+	}
+	if (tester.isOverlapped(board_size.x, Piece::X_COORDINATE))
+	{
+		return false;
+	}
+	if (tester.isOverlapped(board_size.y, Piece::Y_COORDINATE))
+	{
+		return false;
+	}
+
+	return true;
 }
 
 bool Game::isBlockMove(int direction) const
 {
-	return false;
+	Piece tester = currentPiece;
+	switch (direction)
+	{
+	case Piece::LEFT:
+		tester.left();
+		break;
+	case Piece::RIGHT:
+		tester.right();
+		break;
+	}
+
+	for (auto it = savedBlocks.begin(); it != savedBlocks.end(); it++)
+	{
+		if (tester.isOverlapped(it->pos))
+			return false;
+	}
+	if (tester.isOverlapped(0, Piece::X_COORDINATE))
+	{
+		return false;
+	}
+	if (tester.isOverlapped(board_size.x, Piece::X_COORDINATE))
+	{
+		return false;
+	}
+
+	return true;
 }
 
 bool Game::isBlockRotate(int direction) const
 {
-	return false;
+	Piece tester = currentPiece;
+	switch (direction)
+	{
+	case Piece::CCW:
+		tester.rotate(Piece::CCW);
+		break;
+	case Piece::CW:
+		tester.rotate(Piece::CW);
+		break;
+	}
+	for (auto it = savedBlocks.begin(); it != savedBlocks.end(); it++)
+	{
+		if (tester.isOverlapped(it->pos))
+			return false;
+	}
+	if (tester.isOverlapped(0, Piece::X_COORDINATE))
+	{
+		return false;
+	}
+	if (tester.isOverlapped(board_size.x, Piece::X_COORDINATE))
+	{
+		return false;
+	}
+	if (tester.isOverlapped(board_size.y, Piece::Y_COORDINATE))
+	{
+		return false;
+	}
+
+	return true;
 }
 
-bool Game::isBlockEnd() const
+int Game::findCompleteLine() const
 {
-	return false;
+	int i, j;
+	for (i = 0; i < board_size.y; i++)
+	{
+		for (j = 1; j < board_size.x; j++)
+		{
+			Block finder;
+			finder.pos.y = i;
+			finder.pos.x = j;
+			if (savedBlocks.count(finder) == 0)
+				break;
+		}
+		if (j == board_size.x)
+			return i;
+	}
+	return -1;
 }
 
-bool Game::isLineComplete() const
-{
-	return false;
-}
-
-void Game::deleteLine()
+void Game::deleteLine(int line_index)
 {
 	qDebug() << "entering:	Game::deleteLine";
 	putOutput();
@@ -94,6 +180,7 @@ void Game::deleteLine()
 void Game::setBlockDrop()
 {
 	qDebug() << "entering:	Game::setBlockDrop";
+	
 	putOutput();
 	qDebug() << "exiting:	Game::setBlockDrop";
 }
