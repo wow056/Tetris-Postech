@@ -1,6 +1,6 @@
 #include "game.h"
 
-const Coordinate Game::board_size = Coordinate(20, 50);
+const Coordinate Game::board_size = Coordinate(10, 15);
 
 Game::Game(QObject *parent)
 	:QObject(parent),
@@ -32,13 +32,16 @@ void Game::setInput(int input)
 			setBlockMove(Piece::RIGHT);
 		break;
 	case Qt::Key_Up:
-		if (isBlockRotate(Piece::LEFT))
-			setBlockRotate(Piece::LEFT);
+        if (isBlockRotate(Piece::CCW))
+            setBlockRotate(Piece::CCW);
 		break;
 	case Qt::Key_Down:
 		if (isBlockRotate(Piece::RIGHT))
 			setBlockRotate(Piece::RIGHT);
 		break;
+    case Qt::Key_Space:
+        update();
+        break;
 	}
 	qDebug() << "entering:	Game::setInput";
 }
@@ -46,8 +49,7 @@ void Game::setInput(int input)
 void Game::update()
 {
 	int deleteLineIndex;
-	qDebug() << "entering:	Game::update";
-    putOutput(); // 테스트용,곧 지울 예정입니다
+    qDebug() << "entering:	Game::update";
 	if (isBlockDroppable())
 	{
 		setBlockDrop();
@@ -57,11 +59,8 @@ void Game::update()
 		saveBlock();
 		setNextPiece();
 	}
-	deleteLineIndex = findCompleteLine();
-	if (deleteLineIndex >= 0)
-	{
+	while((deleteLineIndex = findCompleteLine()) >= 0)
 		deleteLine(deleteLineIndex);
-	}
 	qDebug() << "exiting:	Game::update";
 }
 
@@ -191,6 +190,11 @@ void Game::deleteLine(int line_index)
 		{
 			it++;
 		}
+	}
+	for (it = savedBlocks.begin(); it != savedBlocks.end(); it++)
+	{
+		if (it->pos.y < line_index)
+			it->pos.y++;
 	}
 	putOutput();
 	qDebug() << "exiting:	Game::deleteLine";

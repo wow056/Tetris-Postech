@@ -22,6 +22,14 @@ struct Coordinate
 	bool operator==(const Coordinate &c) const {
 		return (x == c.x) && (y == c.y);
 	}
+	bool operator<(const Coordinate &c) const {
+		if (y < c.y)
+			return true;
+		else if (y == c.y)
+            return x < c.x;
+		else
+			return false;
+	}
 };
 
 struct Block{
@@ -30,6 +38,9 @@ struct Block{
 	enum COLOR {RED, GREEN, BLUE};
 	bool operator==(const Block &b) const {
 		return pos == b.pos;
+	}
+	bool operator<(const Block&b) const {
+		return pos < b.pos;
 	}
 };
 
@@ -50,7 +61,7 @@ public:
 	bool isOverlapped(int line_pos, int coordinate_type) const; //check if this piece is overapped by a line
     QList<Block> blocks();
 private:
-	static const int middle_x = 10;
+    static const int middle_x = 5;
     Coordinate _pos;
     Coordinate _blocks[4];
     int _color;

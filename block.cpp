@@ -111,9 +111,11 @@ bool Piece::isOverlapped(int line_pos, int coordinate_type) const
 		case X_COORDINATE:
 			if (_pos.x+_blocks[i].x == line_pos)
 				return true;
+            break;
 		case Y_COORDINATE:
 			if (_pos.y+_blocks[i].y == line_pos)
 				return true;
+            break;
 		}
 	}
 	return false;

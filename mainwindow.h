@@ -2,6 +2,8 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QLabel>
+#include <QVBoxLayout>
 #include "game.h"
 
 namespace Ui {
@@ -18,6 +20,13 @@ public:
 
 private:
     Ui::MainWindow *ui;
+    Game *game;
+    QLabel *label[15];
+    virtual void keyPressEvent(QKeyEvent* event);
+private slots:
+    void updateBoard(QList<Block>);
 };
+
+
 
 #endif // MAINWINDOW_H
