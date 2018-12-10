@@ -3,7 +3,6 @@
 
 #include <QList>
 #include <QDebug>
-#include <>
 
 struct Coordinate
 {
@@ -35,6 +34,7 @@ class Piece
 {
 public:
 	enum {CW, CCW};
+	enum {LEFT, RIGHT};
 	enum SHAPE {SHAPE_I, SHAPE_O, SHAPE_Z, SHAPE_S, SHAPE_J, SHAPE_L, SHAPE_T };
 
     Piece();
