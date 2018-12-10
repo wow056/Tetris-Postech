@@ -2,9 +2,9 @@
 
 
 
-Game::Game(QObject *parent = nullptr)
+Game::Game(QObject *parent)
 	:QObject(parent),
-	nextPiece(0, 0), currentPiece(0, 0)
+    nextPiece(), currentPiece()
 {
 	qDebug() << "entering:	Game::Game";
 	timer = new QTimer(this);
@@ -24,20 +24,20 @@ void Game::setInput(int input)
 	switch (input)
 	{
 	case Qt::Key_Left:
-		if (isBlockMove(LEFT))
-			setBlockMove(LEFT);
+		if (isBlockMove(Piece::LEFT))
+			setBlockMove(Piece::LEFT);
 		break;
 	case Qt::Key_Right:
-		if (isBlockMove(RIGHT))
-			setBlockMove(RIGHT);
+		if (isBlockMove(Piece::RIGHT))
+			setBlockMove(Piece::RIGHT);
 		break;
 	case Qt::Key_Up:
-		if (isBlockRotate(LEFT))
-			setBlockRotate(LEFT);
+		if (isBlockRotate(Piece::LEFT))
+			setBlockRotate(Piece::LEFT);
 		break;
 	case Qt::Key_Down:
-		if (isBlockRotate(RIGHT))
-			setBlockRotate(RIGHT);
+		if (isBlockRotate(Piece::RIGHT))
+			setBlockRotate(Piece::RIGHT);
 		break;
 	}
 	qDebug() << "entering:	Game::setInput";
@@ -46,7 +46,8 @@ void Game::setInput(int input)
 void Game::update()
 {
 	qDebug() << "entering:	Game::update";
-	if (isBlockDrop())
+    putOutput(); // 테스트용,곧 지울 예정입니다
+    if (isBlockDrop())
 		setBlockDrop();
 	if (isLineComplete())
 		deleteLine();

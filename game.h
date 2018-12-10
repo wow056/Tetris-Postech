@@ -16,7 +16,7 @@ public:
 private slots:
 	void update(); //time interval이 지난 후에 실행되는 함수
 signals:
-    void updateBoard(const QList<Block>);
+    void updateBoard(const QList<Block>&);
     void gameOver();
 	void sendNextBlock(Piece);
     void sendScore(int);
