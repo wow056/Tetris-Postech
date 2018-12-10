@@ -16,6 +16,7 @@ MainWindow::MainWindow(QWidget *parent) :
 	}
     game = new Game(this);
     connect(game, SIGNAL(updateBoard(QList<Block>)), this, SLOT(updateBoard(QList<Block>)));
+    connect(game, SIGNAL(gameOver(int)),this,SLOT(gameOver(int)));
 }
 
 MainWindow::~MainWindow()
@@ -61,4 +62,11 @@ void MainWindow::updateBoard(QList<Block> l)
 //	{
 //		qDebug() << '(' << it->pos.x << ", " << it->pos.y << ") color: ", it->color;
 //	}
+}
+void MainWindow::gameOver(int score)
+{
+    dialog_gameOver = new Dialog_gameOver(this);
+    dialog_gameOver->show_score(score);
+    dialog_gameOver->exec();
+
 }

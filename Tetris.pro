@@ -28,15 +28,18 @@ SOURCES += \
         main.cpp \
         mainwindow.cpp \
     game.cpp \
-    block.cpp
+    block.cpp \
+    dialog_gameover.cpp
 
 HEADERS += \
         mainwindow.h \
     game.h \
-    block.h
+    block.h \
+    dialog_gameover.h
 
 FORMS += \
-        mainwindow.ui
+        mainwindow.ui \
+    dialog_gameover.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

@@ -8,8 +8,8 @@ Game::Game(QObject *parent)
 {
 	qDebug() << "entering:	Game::Game";
 	timer = new QTimer(this);
-	timer_interbal = 1000;
-
+    timer_interbal = 200;
+    total_score=0;//initialiaze total_score 0
 	//timer_interbal 시간이 지날 때마다 update 함수가 실행됨.
 	connect(timer, SIGNAL(timeout()), this, SLOT(update()));
 	timer->start(timer_interbal);
@@ -35,11 +35,11 @@ void Game::setInput(int input)
         if (isBlockRotate(Piece::CCW))
             setBlockRotate(Piece::CCW);
 		break;
-	case Qt::Key_Down:
-		if (isBlockRotate(Piece::RIGHT))
-			setBlockRotate(Piece::RIGHT);
+    case Qt::Key_Down://go down
+        if (isBlockDroppable())
+            setBlockDrop();
 		break;
-    case Qt::Key_Space:
+    case Qt::Key_Space://go fastly down
         update();
         break;
 	}
@@ -55,9 +55,16 @@ void Game::update()
 		setBlockDrop();
 	}
 	else
-	{
+    {
 		saveBlock();
-		setNextPiece();
+        if(isGameover())
+        {
+            qDebug() << "exiting:	Game::GameOVer";
+            emit gameOver(total_score);
+            timer->stop();
+        }
+
+        setNextPiece();
 	}
 	while((deleteLineIndex = findCompleteLine()) >= 0)
 		deleteLine(deleteLineIndex);
@@ -66,6 +73,15 @@ void Game::update()
 
 bool Game::isGameover() const
 {
+    //Check whether the Game is over or not
+    for (auto it = savedBlocks.begin(); it != savedBlocks.end(); it++)
+    {
+        if (it->pos.y < 0)
+        {
+            qDebug() << "exiting:	Game::GameOVer";
+            return true;
+        }
+    }
 	return false;
 }
 
@@ -78,14 +94,14 @@ bool Game::isBlockDroppable() const
 		if (tester.isOverlapped(it->pos))
 			return false;
 	}
-	if (tester.isOverlapped(0, Piece::X_COORDINATE))
+  /*  if (tester.isOverlapped(0, Piece::X_COORDINATE))
 	{
 		return false;
 	}
 	if (tester.isOverlapped(board_size.x, Piece::X_COORDINATE))
 	{
 		return false;
-	}
+    }*/
 	if (tester.isOverlapped(board_size.y, Piece::Y_COORDINATE))
 	{
 		return false;
@@ -112,7 +128,7 @@ bool Game::isBlockMove(int direction) const
 		if (tester.isOverlapped(it->pos))
 			return false;
 	}
-	if (tester.isOverlapped(0, Piece::X_COORDINATE))
+    if (tester.isOverlapped(-1, Piece::X_COORDINATE))
 	{
 		return false;
 	}
@@ -196,6 +212,7 @@ void Game::deleteLine(int line_index)
 		if (it->pos.y < line_index)
 			it->pos.y++;
 	}
+    total_score+=100;
 	putOutput();
 	qDebug() << "exiting:	Game::deleteLine";
 }

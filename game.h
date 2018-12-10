@@ -18,10 +18,11 @@ private slots:
 	void update(); //time interval이 지난 후에 실행되는 함수
 signals:
     void updateBoard(QList<Block>);
-    void gameOver();
+    void gameOver(int score);
 	void sendNextBlock(Piece);
     void sendScore(int);
 private:
+    int total_score;
     bool isGameover() const;
     bool isBlockDroppable() const;
     bool isBlockMove(int direction) const;

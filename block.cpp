@@ -9,7 +9,7 @@ Piece::Piece()
 	switch (_shape)
 	{
 	case Piece::SHAPE_I:
-		_blocks[0] = Coordinate(0,-2);
+        _blocks[0] = Coordinate(0,-2);
 		_blocks[1] = Coordinate(0,-1);
 		_blocks[2] = Coordinate(0,0);
 		_blocks[3] = Coordinate(0,1);
@@ -17,8 +17,8 @@ Piece::Piece()
 	case Piece::SHAPE_O:
 		_blocks[0] = Coordinate(0, 0);
 		_blocks[1] = Coordinate(1, 0);
-		_blocks[2] = Coordinate(0, 1);
-		_blocks[3] = Coordinate(1, 1);
+        _blocks[2] = Coordinate(0, 1);
+        _blocks[3] = Coordinate(1, 1);
 		break;
 	case Piece::SHAPE_Z:
 		_blocks[0] = Coordinate(-1, 0);
@@ -27,10 +27,10 @@ Piece::Piece()
 		_blocks[3] = Coordinate(1, 1);
 		break;
 	case Piece::SHAPE_S:
-		_blocks[0] = Coordinate(-1, 1);
-		_blocks[1] = Coordinate(0, 1);
-		_blocks[2] = Coordinate(0, 0);
-		_blocks[3] = Coordinate(1, 1);
+        _blocks[0] = Coordinate(1, 0);
+        _blocks[1] = Coordinate(0, 0);
+        _blocks[2] = Coordinate(0, 1);
+        _blocks[3] = Coordinate(-1, 1);
 		break;
 	case Piece::SHAPE_J:
 		_blocks[0] = Coordinate(0, -1);
@@ -62,16 +62,16 @@ void Piece::rotate(int direction)
 		for (int i = 0; i < 4; i++)
 		{
 			temp = _blocks[i].x;
-			_blocks[i].x = _blocks[i].y;
-			_blocks[i].y = -temp;
+            _blocks[i].x = -_blocks[i].y;
+            _blocks[i].y = temp;
 		}
 		break;
 	case CCW:
 		for (int i = 0; i < 4; i++)
 		{
 			temp = _blocks[i].x;
-			_blocks[i].x = -_blocks[i].y;
-			_blocks[i].y = temp;
+            _blocks[i].x = _blocks[i].y;
+            _blocks[i].y = -temp;
 		}
 		break;
 	}
