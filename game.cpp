@@ -49,12 +49,19 @@ void Game::update()
 	qDebug() << "entering:	Game::update";
     putOutput(); // 테스트용,곧 지울 예정입니다
 	if (isBlockDroppable())
+	{
 		setBlockDrop();
+	}
 	else
+	{
 		saveBlock();
+		setNextPiece();
+	}
 	deleteLineIndex = findCompleteLine();
 	if (deleteLineIndex >= 0)
+	{
 		deleteLine(deleteLineIndex);
+	}
 	qDebug() << "exiting:	Game::update";
 }
 
@@ -173,6 +180,18 @@ int Game::findCompleteLine() const
 void Game::deleteLine(int line_index)
 {
 	qDebug() << "entering:	Game::deleteLine";
+	auto it = savedBlocks.begin();
+	while (it != savedBlocks.end())
+	{
+		if (it->pos.y == line_index)
+		{
+			it = savedBlocks.erase(it);
+		}
+		else
+		{
+			it++;
+		}
+	}
 	putOutput();
 	qDebug() << "exiting:	Game::deleteLine";
 }
@@ -180,7 +199,7 @@ void Game::deleteLine(int line_index)
 void Game::setBlockDrop()
 {
 	qDebug() << "entering:	Game::setBlockDrop";
-	
+	currentPiece.down();
 	putOutput();
 	qDebug() << "exiting:	Game::setBlockDrop";
 }
@@ -188,6 +207,15 @@ void Game::setBlockDrop()
 void Game::setBlockMove(int direction)
 {
 	qDebug() << "entering:	Game::setBlockMove";
+	switch (direction)
+	{
+	case Piece::RIGHT:
+		currentPiece.right();
+		break;
+	case Piece::LEFT:
+		currentPiece.left();
+		break;
+	}
 	putOutput();
 	qDebug() << "exiting:	Game::setBlockDrop";
 }
@@ -195,6 +223,15 @@ void Game::setBlockMove(int direction)
 void Game::setBlockRotate(int direction)
 {
 	qDebug() << "entering:	Game::setBlockRotate";
+	switch (direction)
+	{
+	case Piece::CW:
+		currentPiece.rotate(Piece::CW);
+		break;
+	case Piece::CCW:
+		currentPiece.rotate(Piece::CCW);
+		break;
+	}
 	putOutput();
 	qDebug() << "exiting:	Game::setBlockRotate";
 }
@@ -202,6 +239,8 @@ void Game::setBlockRotate(int direction)
 void Game::saveBlock()
 {
 	qDebug() << "entering:	Game::saveBlock";
+	savedBlocks += currentPiece.blocks();
+	currentPiece = nextPiece;
 	putOutput();
 	qDebug() << "exiting:	Game::saveBlock";
 }
@@ -209,6 +248,7 @@ void Game::saveBlock()
 void Game::setNextPiece()
 {
 	qDebug() << "entering:	Game::setNextPiece";
+	nextPiece = Piece();
 	emit sendNextBlock(nextPiece);
 	qDebug() << "exiting:	Game::setNextPiece";
 }
