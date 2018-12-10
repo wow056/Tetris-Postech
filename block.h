@@ -14,12 +14,17 @@ struct Block{
     int color;
 };
 
-struct Piece
+class Piece
 {
-	Piece(int shape, int color)
-		:shape(shape), color(color) {}
-    Coordinate pos;
-    Coordinate blocks[4];
+public:
+    Piece(int shape, int color,int type);
+    void rotate();
+    void move();
+    bool isOverlapped(Coordinate block_pos);
+    QList<Block> blocks();
+private:
+    Coordinate _pos;
+    Coordinate _blocks[4];
     int shape;
     int color;
 };
