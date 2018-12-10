@@ -2,10 +2,10 @@
 #define GAME_H
 #include <QWidget>
 #include <QList>
-#include "block.h"
 #include <QObject>
 #include <QTimer>
-
+#include <QDebug>
+#include "block.h"
 
 class Game: public QObject
 {
@@ -29,12 +29,15 @@ private:
     bool isBlockEnd() const;
     bool isLineComplete() const;
 
-    void deleteLine();		//함수 마지막에 updateBoard 시그널을 emit 해야함
-    void setBlockDrop(); 	//함수 마지막에 updateBoard 시그널을 emit 해야함
-    void setBlockMove(int direction);	//함수 마지막에 updateBoard 시그널을 emit 해야함
-    void setBlockRotate(int direction);	//함수 마지막에 updateBoard 시그널을 emit 해야함
-    void saveBlock();		//함수 마지막에 updateBoard 시그널을 emit 해야함
-    void setNextBlock();
+    void deleteLine();					//함수 마지막에 putOutput 함수 호출
+    void setBlockDrop(); 				//함수 마지막에 putOutput 함수 호출
+    void setBlockMove(int direction);	//함수 마지막에 putOutput 함수 호출
+    void setBlockRotate(int direction);	//함수 마지막에 putOutput 함수 호출
+
+    void saveBlock();
+
+    void setNextPiece();				//함수 마지막에 sendNextBlock 시그널 호출
+	void putOutput();					//함수 마지막에 updateBoard 시그널 호출
 
     Piece nextPiece;
     Piece currentPiece;
