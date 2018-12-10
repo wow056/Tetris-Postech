@@ -1,11 +1,11 @@
 #include "block.h"
 
-
-Piece::Piece(int shape, int color)
-	:_shape(shape)
-	,_color(color)
-	,_pos(middle_x , -1)
+Piece::Piece()
 {
+	_shape = qrand() % 7;
+	_color = qrand() % 3;
+	_pos = Coordinate(middle_x, -1);
+
 	switch (_shape)
 	{
 	case Piece::SHAPE_I:

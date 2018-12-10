@@ -3,6 +3,7 @@
 
 #include <QList>
 #include <QDebug>
+#include <>
 
 struct Coordinate
 {
@@ -27,6 +28,7 @@ struct Coordinate
 struct Block{
     Coordinate pos;
     int color;
+	enum COLOR {RED, GREEN, BLUE};
 };
 
 class Piece
@@ -35,7 +37,7 @@ public:
 	enum {CW, CCW};
 	enum SHAPE {SHAPE_I, SHAPE_O, SHAPE_Z, SHAPE_S, SHAPE_J, SHAPE_L, SHAPE_T };
 
-    Piece(int shape, int color);
+    Piece();
     void rotate(int direction);
 	void left();
 	void right();
