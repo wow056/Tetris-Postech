@@ -21,7 +21,6 @@ signals:
 	void sendNextBlock(Piece);
     void sendScore(int);
 private:
-	enum {LEFT, RIGHT};		//블록 이동, 회전 방향
     bool isGameover() const;
     bool isBlockDrop() const;
     bool isBlockMove(int direction) const;
