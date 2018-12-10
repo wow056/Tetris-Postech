@@ -43,8 +43,8 @@ public:
 	void left();
 	void right();
 	void down();
-    bool isOverlapped(Coordinate block_pos); //check if this piece is overapped by a block
-	bool isOverlapped(int line_pos, int coordinate_type); //check if this piece is overapped by a line
+    bool isOverlapped(Coordinate block_pos) const; //check if this piece is overapped by a block
+	bool isOverlapped(int line_pos, int coordinate_type) const; //check if this piece is overapped by a line
     QList<Block> blocks();
 private:
 	static const int middle_x = 10;

@@ -92,7 +92,7 @@ void Piece::down()
 	_pos.y++;
 }
 
-bool Piece::isOverlapped(Coordinate block_pos)
+bool Piece::isOverlapped(Coordinate block_pos) const
 {
 	for (int i = 0; i < 4; i++)
 	{
@@ -102,7 +102,7 @@ bool Piece::isOverlapped(Coordinate block_pos)
 	return false;
 }
 
-bool Piece::isOverlapped(int line_pos, int coordinate_type)
+bool Piece::isOverlapped(int line_pos, int coordinate_type) const
 {
 	for (int i = 0; i < 4; i++)
 	{
