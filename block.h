@@ -14,13 +14,10 @@ struct Block{
     int color;
 };
 
-class Piece
+struct Piece
 {
-public:
-    Piece(int shape, int color,int type);
-    void rotate();
-    void move();
-private:
+	Piece(int shape, int color)
+		:shape(shape), color(color) {}
     Coordinate pos;
     Coordinate blocks[4];
     int shape;
