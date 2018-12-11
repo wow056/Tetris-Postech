@@ -178,7 +178,7 @@ int Game::findCompleteLine() const
 	int i, j;
 	for (i = 0; i < board_size.y; i++)
 	{
-		for (j = 1; j < board_size.x; j++)
+        for (j = 0; j < board_size.x; j++)
 		{
 			Block finder;
 			finder.pos.y = i;
