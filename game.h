@@ -7,6 +7,9 @@
 #include <QDebug>
 #include "block.h"
 
+const int GAME_WIDTH = 20;
+const int GAME_HEIGHT = 40;
+
 class Game: public QObject
 {
     Q_OBJECT
@@ -19,10 +22,9 @@ private slots:
 signals:
     void updateBoard(QList<Block>);
     void gameOver(int score);
-	void sendNextBlock(Piece);
-    void sendScore(int);
+    void updateNextPiece(Piece);
+    void updatedScore(int);
 private:
-    int total_score;
     bool isGameover() const;
     bool isBlockDroppable() const;
     bool isBlockMove(int direction) const;
@@ -38,12 +40,14 @@ private:
 
     void setNextPiece();				//함수 마지막에 sendNextBlock 시그널 호출
 	void putOutput();					//함수 마지막에 updateBoard 시그널 호출
+    void increaseScore(int n);
 
     Piece nextPiece;
     Piece currentPiece;
     QList<Block> savedBlocks;
     QTimer *timer;
     int timer_interbal;
+    int total_score;
 };
 
 #endif // GAME_H

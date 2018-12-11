@@ -1,6 +1,6 @@
 #include "game.h"
 
-const Coordinate Game::board_size = Coordinate(10, 15);
+const Coordinate Game::board_size = Coordinate(GAME_WIDTH, GAME_HEIGHT);
 
 Game::Game(QObject *parent)
 	:QObject(parent),
@@ -8,7 +8,7 @@ Game::Game(QObject *parent)
 {
 	qDebug() << "entering:	Game::Game";
 	timer = new QTimer(this);
-    timer_interbal = 200;
+    timer_interbal = 600;
     total_score=0;//initialiaze total_score 0
 	//timer_interbal 시간이 지날 때마다 update 함수가 실행됨.
 	connect(timer, SIGNAL(timeout()), this, SLOT(update()));
@@ -212,7 +212,7 @@ void Game::deleteLine(int line_index)
 		if (it->pos.y < line_index)
 			it->pos.y++;
 	}
-    total_score+=100;
+    increaseScore(100);
 	putOutput();
 	qDebug() << "exiting:	Game::deleteLine";
 }
@@ -270,7 +270,7 @@ void Game::setNextPiece()
 {
 	qDebug() << "entering:	Game::setNextPiece";
 	nextPiece = Piece();
-	emit sendNextBlock(nextPiece);
+    emit updateNextPiece(nextPiece);
 	qDebug() << "exiting:	Game::setNextPiece";
 }
 
@@ -280,5 +280,11 @@ void Game::putOutput()
 	qDebug() << "entering:	Game::putOutput";
 	output = savedBlocks + currentPiece.blocks();
 	emit updateBoard(output);
-	qDebug() << "exiting:	Game::putOutput";
+    qDebug() << "exiting:	Game::putOutput";
+}
+
+void Game::increaseScore(int n)
+{
+    total_score += n;
+    updatedScore(total_score);
 }

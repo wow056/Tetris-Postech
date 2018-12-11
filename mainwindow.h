@@ -22,7 +22,7 @@ public:
 private:
     Ui::MainWindow *ui;
     Game *game;
-    QLabel *label[15];
+    QLabel *label[GAME_HEIGHT];
     virtual void keyPressEvent(QKeyEvent* event);
     Dialog_gameOver *dialog_gameOver;
 

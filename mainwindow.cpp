@@ -8,8 +8,9 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 	QVBoxLayout *layout = new QVBoxLayout(this);
+    layout->setSpacing(0);
 	centralWidget()->setLayout(layout);
-    for (int i = 0; i < 15; i++)
+    for (int i = 0; i < GAME_HEIGHT; i++)
 	{
 		label[i] = new QLabel(this);
 		layout->addWidget(label[i]);
