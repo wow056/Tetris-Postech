@@ -1,17 +1,23 @@
 #include "game.h"
 
 const Coordinate Game::board_size = Coordinate(GAME_WIDTH, GAME_HEIGHT);
+const float Game::SpeedIncrement = 0.001;
 
-Game::Game(QObject *parent)
-	:QObject(parent)
+Game::Game(int mode, QObject *parent)
+	:QObject(parent), mode(mode),
+	timer_interbal(600),
+	total_score(0)
 {
 	setNextPiece();
 	timer = new QTimer(this);
-    timer_interbal = 600;
-    total_score=0;//initialiaze total_score 0
-	//timer_interbal 시간이 지날 때마다 update 함수가 실행됨.
 	connect(timer, SIGNAL(timeout()), this, SLOT(update()));
 	timer->start(timer_interbal);
+	if (mode == Speed)
+	{
+		timer_speedmode = new QTimer(this);
+		connect(timer_speedmode, SIGNAL(timeout()), this, SLOT(updateSpeed()));
+		timer_speedmode->start(600);
+	}
 }
 
 
@@ -66,6 +72,15 @@ void Game::update()
 	}
 	while((deleteLineIndex = findCompleteLine()) >= 0)
 		deleteLine(deleteLineIndex);
+}
+
+void Game::updateSpeed()
+{
+	int interval = timer->interval();
+	float speed = 100000.0 / interval;
+	speed += SpeedIncrement;
+	timer->setInterval(100000 / speed);
+	emit updatedSpeed(speed);
 }
 
 bool Game::isGameover() const
@@ -182,11 +197,16 @@ int Game::findCompleteLine() const
 
 void Game::deleteLine(int line_index)
 {
+    int itemEffect=0;
 	auto it = savedBlocks.begin();
 	while (it != savedBlocks.end())
 	{
 		if (it->pos.y == line_index)
 		{
+            if(it->iamitem==1)
+            {
+                itemEffect=1;
+            }
 			it = savedBlocks.erase(it);
 		}
 		else
@@ -200,6 +220,28 @@ void Game::deleteLine(int line_index)
 			it->pos.y++;
 	}
     increaseScore(100);
+    //item effect delete bottom one line;
+    if(itemEffect==1)
+    {
+            it = savedBlocks.begin();
+            while (it != savedBlocks.end())
+            {
+                if (it->pos.y == 20)
+                {
+                    it = savedBlocks.erase(it);
+                }
+                else
+                {
+                    it++;
+                }
+            }
+            for (it = savedBlocks.begin(); it != savedBlocks.end(); it++)
+            {
+                if (it->pos.y < 30)
+                    it->pos.y++;
+            }
+    itemEffect=0;
+    }
 	putOutput();
 }
 

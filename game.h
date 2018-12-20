@@ -14,16 +14,22 @@ class Game: public QObject
 {
     Q_OBJECT
 public:
-    Game(QObject *parent = nullptr);
-	void setInput(int input);	//mainwindow에서 KeyEvent 발생 시 호출해주세요.
+	enum MODE
+	{
+		Normal, Item, Speed
+	};
+    Game(int mode, QObject *parent = nullptr);
+	void setInput(int input);
 	const static Coordinate board_size;
 private slots:
-	void update(); //time interval이 지난 후에 실행되는 함수
+	void update();
+	void updateSpeed();
 signals:
     void updateBoard(QList<Block>);
     void gameOver(int score);
     void updateNextPiece(int);
     void updatedScore(int);
+	void updatedSpeed(float);
 private:
     bool isGameover() const;
     bool isBlockDroppable() const;
@@ -40,14 +46,18 @@ private:
 
     void setNextPiece();				//함수 마지막에 sendNextBlock 시그널 호출
 	void putOutput();					//함수 마지막에 updateBoard 시그널 호출
-    void increaseScore(int n);
+	void increaseScore(int n);
+
+	const static float SpeedIncrement;
 
     Piece nextPiece;
     Piece currentPiece;
     QList<Block> savedBlocks;
     QTimer *timer;
+	QTimer *timer_speedmode;
     int timer_interbal;
     int total_score;
+	int mode;
 };
 
 #endif // GAME_H

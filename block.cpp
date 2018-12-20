@@ -5,6 +5,7 @@ Piece::Piece()
 	_shape = qrand() % 7;
 	_pos = Coordinate(middle_x, -1);
 	setRotation(0);
+	if (qrand() % 3 == 1) { _iamitem = 1; }
 }
 
 int Piece::shape()
@@ -80,12 +81,27 @@ QList<Block> Piece::blocks()
 {
 	QList<Block> b_list;
 	for (int i = 0; i < 4; i++)
-	{
+    {
 		Block b;
+		if (i == 1)
+		{
+			if (_iamitem == 1)
+			{
+				b.iamitem = 1;
+				b.color = 0;
+			}
+			else
+			{
+				b.color = _shape + 1;
+			}
+		}
+        else
+        {
 		b.color = _shape + 1;
+        }
 		b.pos = _pos + _blocks[i];
 		b_list << b;
-	}
+     }
 	return b_list;
 }
 

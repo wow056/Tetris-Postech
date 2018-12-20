@@ -4,8 +4,10 @@
 #include <QMainWindow>
 #include <QLabel>
 #include <QVBoxLayout>
+#include <QFontDatabase>
 #include "game.h"
 #include "dialog_gameover.h"
+#include "dialog_select.h"
 
 namespace Ui {
 class MainWindow;
@@ -54,6 +56,7 @@ private:
     QPixmap skyNext;
     QPixmap yellowNext;
     QPixmap tetrismark;
+    QPixmap special;
 
 private slots:
     void updateBoard(QList<Block>);
@@ -61,6 +64,7 @@ private slots:
     QPixmap blockcolor(int);
     void showNextBlock(int);
     void showScore(int);
+	void showSpeed(float);
 };
 
 

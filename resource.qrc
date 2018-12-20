@@ -18,6 +18,7 @@
         <file>skyNext.png</file>
         <file>yellowNext.png</file>
         <file>tetrismark.png</file>
+        <file>special.png</file>
     </qresource>
     <qresource prefix="/font">
         <file>aerial.ttf</file>
