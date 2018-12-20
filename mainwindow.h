@@ -22,13 +22,24 @@ public:
 private:
     Ui::MainWindow *ui;
     Game *game;
-    QLabel *label[GAME_HEIGHT];
+    //QLabel *label[GAME_HEIGHT];
+    QLabel* labels[10][20];
+    QLabel* test;
     virtual void keyPressEvent(QKeyEvent* event);
     Dialog_gameOver *dialog_gameOver;
+    QPixmap blue;
+    QPixmap back;
+    QPixmap green;
+    QPixmap orange;
+    QPixmap pink;
+    QPixmap red;
+    QPixmap sky;
+    QPixmap yellow;
 
 private slots:
     void updateBoard(QList<Block>);
     void gameOver(int total_score);
+    QPixmap blockcolor(int);
 };
 
 

@@ -35,7 +35,7 @@ struct Coordinate
 struct Block{
     Coordinate pos;
     int color;
-	enum COLOR {RED, GREEN, BLUE};
+    //enum COLOR {RED, GREEN, BLUE};
 	bool operator==(const Block &b) const {
 		return pos == b.pos;
 	}

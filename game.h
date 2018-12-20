@@ -7,8 +7,8 @@
 #include <QDebug>
 #include "block.h"
 
-const int GAME_WIDTH = 20;
-const int GAME_HEIGHT = 40;
+const int GAME_WIDTH = 10;
+const int GAME_HEIGHT = 20;
 
 class Game: public QObject
 {

@@ -2,8 +2,7 @@
 
 Piece::Piece()
 {
-	_shape = qrand() % 7;
-	_color = qrand() % 3;
+    _shape = qrand() % 7;
 	_pos = Coordinate(middle_x, -1);
 
 	switch (_shape)
@@ -13,42 +12,49 @@ Piece::Piece()
 		_blocks[1] = Coordinate(0,-1);
 		_blocks[2] = Coordinate(0,0);
 		_blocks[3] = Coordinate(0,1);
+        _color=1;
 		break;
 	case Piece::SHAPE_O:
 		_blocks[0] = Coordinate(0, 0);
 		_blocks[1] = Coordinate(1, 0);
         _blocks[2] = Coordinate(0, 1);
         _blocks[3] = Coordinate(1, 1);
+        _color=2;
 		break;
 	case Piece::SHAPE_Z:
 		_blocks[0] = Coordinate(-1, 0);
 		_blocks[1] = Coordinate(0, 0);
 		_blocks[2] = Coordinate(0, 1);
 		_blocks[3] = Coordinate(1, 1);
+        _color=3;
 		break;
 	case Piece::SHAPE_S:
         _blocks[0] = Coordinate(1, 0);
         _blocks[1] = Coordinate(0, 0);
         _blocks[2] = Coordinate(0, 1);
         _blocks[3] = Coordinate(-1, 1);
+        _color=4;
 		break;
 	case Piece::SHAPE_J:
 		_blocks[0] = Coordinate(0, -1);
 		_blocks[1] = Coordinate(0, 0);
 		_blocks[2] = Coordinate(0, 1);
 		_blocks[3] = Coordinate(1, 1);
+        _color=5;
 		break;
 	case Piece::SHAPE_L:
 		_blocks[0] = Coordinate(0, -1);
 		_blocks[1] = Coordinate(0, 0);
 		_blocks[2] = Coordinate(0, 1);
 		_blocks[3] = Coordinate(-1, 1);
+        _color=6;
 		break;
 	case Piece::SHAPE_T:
 		_blocks[0] = Coordinate(-1, 0);
 		_blocks[1] = Coordinate(0, 0);
 		_blocks[2] = Coordinate(1, 0);
 		_blocks[3] = Coordinate(0, 1);
+        _color=7;
 		break;
 	}
 }
