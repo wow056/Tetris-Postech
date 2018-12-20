@@ -7,6 +7,11 @@ Piece::Piece()
 	setRotation(0);
 }
 
+int Piece::shape()
+{
+	return _shape;
+}
+
 void Piece::rotate(int direction)
 {
 	int temp;

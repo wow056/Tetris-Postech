@@ -53,6 +53,7 @@ public:
 	enum {X_COORDINATE, Y_COORDINATE};
 
     Piece();
+	int shape();
     void rotate(int direction);
 	void left();
 	void right();
