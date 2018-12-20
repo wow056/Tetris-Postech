@@ -39,6 +39,7 @@ void Game::setInput(int input)
     case Qt::Key_Space://go fastly down
 		while (isBlockDroppable())
 			setBlockDrop();
+		update();
         break;
 	}
 }
@@ -55,8 +56,10 @@ void Game::update()
 		saveBlock();
         if(isGameover())
         {
+			timer->stop();
+			deleteLater();
             emit gameOver(total_score);
-            timer->stop();
+			return;
         }
 
         setNextPiece();
