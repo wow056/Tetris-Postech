@@ -22,7 +22,7 @@ private slots:
 signals:
     void updateBoard(QList<Block>);
     void gameOver(int score);
-    void updateNextPiece(Piece);
+    void updateNextPiece(int);
     void updatedScore(int);
 private:
     bool isGameover() const;
@@ -31,7 +31,7 @@ private:
     bool isBlockRotate(int direction) const;
     int findCompleteLine() const;
 
-    void deleteLine(int line_index);					//함수 마지막에 putOutput 함수 호출
+    void deleteLine(int line_index);	//함수 마지막에 putOutput 함수 호출
     void setBlockDrop(); 				//함수 마지막에 putOutput 함수 호출
     void setBlockMove(int direction);	//함수 마지막에 putOutput 함수 호출
     void setBlockRotate(int direction);	//함수 마지막에 putOutput 함수 호출

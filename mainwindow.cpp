@@ -122,6 +122,17 @@ void MainWindow::gameOver(int score)
 {
     dialog_gameOver = new Dialog_gameOver(this);
     dialog_gameOver->show_score(score);
-    dialog_gameOver->exec();
+	if (dialog_gameOver->exec() == QDialog::Accepted)
+	{
+		disconnect(game);
+		delete game;
+		game = new Game();
+		connect(game, SIGNAL(updateBoard(QList<Block>)), this, SLOT(updateBoard(QList<Block>)));
+		connect(game, SIGNAL(gameOver(int)), this, SLOT(gameOver(int)));
+	}
+	else  
+	{
+		
+	}
 
 }

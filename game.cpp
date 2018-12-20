@@ -3,24 +3,21 @@
 const Coordinate Game::board_size = Coordinate(GAME_WIDTH, GAME_HEIGHT);
 
 Game::Game(QObject *parent)
-	:QObject(parent),
-    nextPiece(), currentPiece()
+	:QObject(parent)
 {
-	qDebug() << "entering:	Game::Game";
+	setNextPiece();
 	timer = new QTimer(this);
     timer_interbal = 600;
     total_score=0;//initialiaze total_score 0
 	//timer_interbal 시간이 지날 때마다 update 함수가 실행됨.
 	connect(timer, SIGNAL(timeout()), this, SLOT(update()));
 	timer->start(timer_interbal);
-	qDebug() << "exiting:	Game::Game";
 }
 
 
 
 void Game::setInput(int input)
 {
-	qDebug() << "entering:	Game::setInput";
 	switch (input)
 	{
 	case Qt::Key_Left:
@@ -40,16 +37,16 @@ void Game::setInput(int input)
             setBlockDrop();
 		break;
     case Qt::Key_Space://go fastly down
-        update();
+		while (isBlockDroppable())
+			setBlockDrop();
+		update();
         break;
 	}
-	qDebug() << "entering:	Game::setInput";
 }
 
 void Game::update()
 {
 	int deleteLineIndex;
-    qDebug() << "entering:	Game::update";
 	if (isBlockDroppable())
 	{
 		setBlockDrop();
@@ -59,16 +56,16 @@ void Game::update()
 		saveBlock();
         if(isGameover())
         {
-            qDebug() << "exiting:	Game::GameOVer";
+			timer->stop();
+			deleteLater();
             emit gameOver(total_score);
-            timer->stop();
+			return;
         }
 
         setNextPiece();
 	}
 	while((deleteLineIndex = findCompleteLine()) >= 0)
 		deleteLine(deleteLineIndex);
-	qDebug() << "exiting:	Game::update";
 }
 
 bool Game::isGameover() const
@@ -78,7 +75,6 @@ bool Game::isGameover() const
     {
         if (it->pos.y < 0)
         {
-            qDebug() << "exiting:	Game::GameOVer";
             return true;
         }
     }
@@ -94,14 +90,6 @@ bool Game::isBlockDroppable() const
 		if (tester.isOverlapped(it->pos))
 			return false;
 	}
-  /*  if (tester.isOverlapped(0, Piece::X_COORDINATE))
-	{
-		return false;
-	}
-	if (tester.isOverlapped(board_size.x, Piece::X_COORDINATE))
-	{
-		return false;
-    }*/
 	if (tester.isOverlapped(board_size.y, Piece::Y_COORDINATE))
 	{
 		return false;
@@ -194,7 +182,6 @@ int Game::findCompleteLine() const
 
 void Game::deleteLine(int line_index)
 {
-	qDebug() << "entering:	Game::deleteLine";
 	auto it = savedBlocks.begin();
 	while (it != savedBlocks.end())
 	{
@@ -214,20 +201,16 @@ void Game::deleteLine(int line_index)
 	}
     increaseScore(100);
 	putOutput();
-	qDebug() << "exiting:	Game::deleteLine";
 }
 
 void Game::setBlockDrop()
 {
-	qDebug() << "entering:	Game::setBlockDrop";
 	currentPiece.down();
 	putOutput();
-	qDebug() << "exiting:	Game::setBlockDrop";
 }
 
 void Game::setBlockMove(int direction)
 {
-	qDebug() << "entering:	Game::setBlockMove";
 	switch (direction)
 	{
 	case Piece::RIGHT:
@@ -238,12 +221,10 @@ void Game::setBlockMove(int direction)
 		break;
 	}
 	putOutput();
-	qDebug() << "exiting:	Game::setBlockDrop";
 }
 
 void Game::setBlockRotate(int direction)
 {
-	qDebug() << "entering:	Game::setBlockRotate";
 	switch (direction)
 	{
 	case Piece::CW:
@@ -254,33 +235,26 @@ void Game::setBlockRotate(int direction)
 		break;
 	}
 	putOutput();
-	qDebug() << "exiting:	Game::setBlockRotate";
 }
 
 void Game::saveBlock()
 {
-	qDebug() << "entering:	Game::saveBlock";
 	savedBlocks += currentPiece.blocks();
 	currentPiece = nextPiece;
 	putOutput();
-	qDebug() << "exiting:	Game::saveBlock";
 }
 
 void Game::setNextPiece()
 {
-	qDebug() << "entering:	Game::setNextPiece";
 	nextPiece = Piece();
-    emit updateNextPiece(nextPiece);
-	qDebug() << "exiting:	Game::setNextPiece";
+    emit updateNextPiece(nextPiece.shape());
 }
 
 void Game::putOutput()
 {
 	QList<Block> output;
-	qDebug() << "entering:	Game::putOutput";
 	output = savedBlocks + currentPiece.blocks();
 	emit updateBoard(output);
-    qDebug() << "exiting:	Game::putOutput";
 }
 
 void Game::increaseScore(int n)
