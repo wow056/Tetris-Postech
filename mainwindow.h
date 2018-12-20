@@ -24,7 +24,17 @@ private:
     Game *game;
     //QLabel *label[GAME_HEIGHT];
     QLabel* labels[10][20];
-    QLabel* test;
+    QLabel* nextname;
+    QLabel* scorename;
+    QLabel* speedname;
+    QLabel* scoretext;
+    QLabel* speedtext;
+    QLabel* nextboard;
+    QLabel* scoreboard;
+    QLabel* speedboard;
+    QLabel* mark;
+    QLabel* gamemode;
+
     virtual void keyPressEvent(QKeyEvent* event);
     Dialog_gameOver *dialog_gameOver;
     QPixmap blue;
@@ -35,11 +45,22 @@ private:
     QPixmap red;
     QPixmap sky;
     QPixmap yellow;
+    QPixmap Next;
+    QPixmap blueNext;
+    QPixmap greenNext;
+    QPixmap orangeNext;
+    QPixmap pinkNext;
+    QPixmap redNext;
+    QPixmap skyNext;
+    QPixmap yellowNext;
+    QPixmap tetrismark;
 
 private slots:
     void updateBoard(QList<Block>);
     void gameOver(int total_score);
     QPixmap blockcolor(int);
+    void showNextBlock(int);
+    void showScore(int);
 };
 
 
