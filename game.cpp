@@ -160,7 +160,7 @@ bool Game::isBlockRotate(int direction) const
 		if (tester.isOverlapped(it->pos))
 			return false;
 	}
-	if (tester.isOverlapped(0, Piece::X_COORDINATE))
+	if (tester.isOverlapped(-1, Piece::X_COORDINATE))
 	{
 		return false;
 	}
