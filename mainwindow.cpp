@@ -44,7 +44,9 @@ MainWindow::MainWindow(QWidget *parent) :
             //labels[i][j]->setPixmap(blue);
         }
     }
-    game = new Game(this);
+	dialog_select select;
+	select.exec();
+    game = new Game(select.result(), this);
     connect(game, SIGNAL(updateBoard(QList<Block>)), this, SLOT(updateBoard(QList<Block>)));
     connect(game, SIGNAL(gameOver(int)),this,SLOT(gameOver(int)));
 }
@@ -129,13 +131,15 @@ void MainWindow::gameOver(int score)
 	{
 		disconnect(game);
 		delete game;
-		game = new Game();
+		dialog_select select;
+		select.exec();
+		game = new Game(select.result(), this);
 		connect(game, SIGNAL(updateBoard(QList<Block>)), this, SLOT(updateBoard(QList<Block>)));
 		connect(game, SIGNAL(gameOver(int)), this, SLOT(gameOver(int)));
 	}
 	else  
 	{
-		
+		close();
 	}
 
 }

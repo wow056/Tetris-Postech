@@ -15,6 +15,13 @@ public:
     explicit dialog_select(QWidget *parent = nullptr);
     ~dialog_select();
 
+private slots:
+    void on_normal_btn_clicked();
+
+    void on_speed_btn_clicked();
+
+    void on_item_btn_clicked();
+
 private:
     Ui::dialog_select *ui;
 };

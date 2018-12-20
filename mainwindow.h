@@ -6,6 +6,7 @@
 #include <QVBoxLayout>
 #include "game.h"
 #include "dialog_gameover.h"
+#include "dialog_select.h"
 
 namespace Ui {
 class MainWindow;

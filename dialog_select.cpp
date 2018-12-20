@@ -14,17 +14,17 @@ dialog_select::~dialog_select()
     delete ui;
 }
 
-void dialog_select::on_normalButton_clicked()
+void dialog_select::on_normal_btn_clicked()
 {
     done(Game::Normal);
 }
 
-void dialog_select::on_itemButton_clicked()
+void dialog_select::on_item_btn_clicked()
 {
     done(Game::Item);
 }
 
-void dialog_select::on_speedButton_clicked()
+void dialog_select::on_speed_btn_clicked()
 {
     done(Game::Speed);
 }
