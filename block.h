@@ -61,11 +61,12 @@ public:
 	bool isOverlapped(int line_pos, int coordinate_type) const; //check if this piece is overapped by a line
     QList<Block> blocks();
 private:
+    void setRotation(int rotation);
     static const int middle_x = 5;
     Coordinate _pos;
     Coordinate _blocks[4];
-    int _color;
 	int _shape;
+    int _rotation;
 };
 
 #endif // BLOCK_H
