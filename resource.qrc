@@ -19,6 +19,9 @@
         <file>yellowNext.png</file>
         <file>tetrismark.png</file>
         <file>special.png</file>
+        <file>speed.ico</file>
+        <file>item.ico</file>
+        <file>juegos_tetris-512.png</file>
     </qresource>
     <qresource prefix="/font">
         <file>aerial.ttf</file>

@@ -2,6 +2,7 @@
 #define DIALOG_SELECT_H
 
 #include <QDialog>
+#include <qfontdatabase.h>
 
 namespace Ui {
 class dialog_select;

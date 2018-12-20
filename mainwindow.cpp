@@ -250,8 +250,7 @@ void MainWindow::gameOver(int score)
 {
 	disconnect(game);
 	game->deleteLater();
-	Dialog_gameOver dialog_gameover(this);
-    dialog_gameover.show_score(score);
+	Dialog_gameOver dialog_gameover(score, this);
 	if (dialog_gameover.exec() == QDialog::Accepted)
 		loadGame();
 	else  
