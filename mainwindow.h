@@ -37,8 +37,8 @@ private:
     QLabel* mark;
     QLabel* gamemode;
 
+	void loadGame();
     virtual void keyPressEvent(QKeyEvent* event);
-    Dialog_gameOver *dialog_gameOver;
     QPixmap blue;
     QPixmap back;
     QPixmap green;

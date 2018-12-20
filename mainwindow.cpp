@@ -113,20 +113,24 @@ MainWindow::MainWindow(QWidget *parent) :
             labels[i][j]->setFixedHeight(30);
         }
     }
-	dialog_select select;
-	select.exec();
-    game = new Game(select.result(), this);
-	connect(game, &Game::updateBoard, this, &MainWindow::updateBoard);
-	connect(game, &Game::gameOver, this, &MainWindow::gameOver);
-	connect(game, &Game::updateNextPiece, this, &MainWindow::showNextBlock);
-	connect(game, &Game::updatedScore, this, &MainWindow::showScore);
-	connect(game, &Game::updatedSpeed, this, &MainWindow::showSpeed);
-
+	loadGame();
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+void MainWindow::loadGame()
+{
+	dialog_select select;
+	select.exec();
+	game = new Game(select.result(), this);
+	connect(game, &Game::updateBoard, this, &MainWindow::updateBoard);
+	connect(game, &Game::gameOver, this, &MainWindow::gameOver);
+	connect(game, &Game::updateNextPiece, this, &MainWindow::showNextBlock);
+	connect(game, &Game::updatedScore, this, &MainWindow::showScore);
+	connect(game, &Game::updatedSpeed, this, &MainWindow::showSpeed);
 }
 
 void MainWindow::keyPressEvent(QKeyEvent * event)
@@ -244,21 +248,12 @@ void MainWindow::showSpeed(float f)
 
 void MainWindow::gameOver(int score)
 {
-    dialog_gameOver = new Dialog_gameOver(this);
-    dialog_gameOver->show_score(score);
-	if (dialog_gameOver->exec() == QDialog::Accepted)
-	{
-		disconnect(game);
-		delete game;
-		dialog_select select;
-		select.exec();
-		game = new Game(select.result(), this);
-		connect(game, SIGNAL(updateBoard(QList<Block>)), this, SLOT(updateBoard(QList<Block>)));
-		connect(game, SIGNAL(gameOver(int)), this, SLOT(gameOver(int)));
-	}
+	game->deleteLater();
+	Dialog_gameOver dialog_gameover(this);
+    dialog_gameover.show_score(score);
+	if (dialog_gameover.exec() == QDialog::Accepted)
+		loadGame();
 	else  
-	{
 		close();
-	}
 
 }

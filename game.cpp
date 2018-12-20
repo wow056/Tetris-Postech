@@ -63,7 +63,8 @@ void Game::update()
         if(isGameover())
         {
 			timer->stop();
-			deleteLater();
+			if (mode == Speed)
+				timer_speedmode->stop();
             emit gameOver(total_score);
 			return;
         }
