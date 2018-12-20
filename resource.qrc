@@ -1,0 +1,12 @@
+<RCC>
+    <qresource prefix="/block">
+        <file>back.png</file>
+        <file>blue.png</file>
+        <file>green.png</file>
+        <file>orange.png</file>
+        <file>pink.png</file>
+        <file>red.png</file>
+        <file>sky.png</file>
+        <file>yellow.png</file>
+    </qresource>
+</RCC>

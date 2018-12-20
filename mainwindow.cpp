@@ -22,14 +22,14 @@ MainWindow::MainWindow(QWidget *parent) :
     test->setFont(font);
     test->setText("SCORE");
 
-    blue=QPixmap("C:/Users/dg082/Documents/Qt_Projects/block/blue.png");
-    back=QPixmap("C:/Users/dg082/Documents/Qt_Projects/block/back.png");
-    green=QPixmap("C:/Users/dg082/Documents/Qt_Projects/block/green.png");
-    orange=QPixmap("C:/Users/dg082/Documents/Qt_Projects/block/orange.png");
-    pink=QPixmap("C:/Users/dg082/Documents/Qt_Projects/block/pink.png");
-    red=QPixmap("C:/Users/dg082/Documents/Qt_Projects/block/red.png");
-    sky=QPixmap("C:/Users/dg082/Documents/Qt_Projects/block/sky.png");
-    yellow=QPixmap("C:/Users/dg082/Documents/Qt_Projects/block/yellow.png");
+    blue=QPixmap(":/block/blue.png");
+    back=QPixmap(":/block/back.png");
+    green=QPixmap(":/block/green.png");
+    orange=QPixmap(":/block/orange.png");
+    pink=QPixmap(":/block/pink.png");
+    red=QPixmap(":/block/red.png");
+    sky=QPixmap(":/block/sky.png");
+    yellow=QPixmap(":/block/yellow.png");
 
     for(int i=0; i<10; i++)
     {
