@@ -98,9 +98,9 @@ QList<Block> Piece::blocks()
         else
         {
 		b.color = _shape + 1;
+        }
 		b.pos = _pos + _blocks[i];
 		b_list << b;
-        }
      }
 	return b_list;
 }
