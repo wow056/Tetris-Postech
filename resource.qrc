@@ -9,4 +9,7 @@
         <file>sky.png</file>
         <file>yellow.png</file>
     </qresource>
+    <qresource prefix="/font">
+        <file>aerial.ttf</file>
+    </qresource>
 </RCC>
