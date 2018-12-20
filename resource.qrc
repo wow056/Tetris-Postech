@@ -8,6 +8,20 @@
         <file>red.png</file>
         <file>sky.png</file>
         <file>yellow.png</file>
+        <file>bomb.png</file>
+        <file>blueNext.png</file>
+        <file>greenNext.png</file>
+        <file>Next.png</file>
+        <file>orangeNext.png</file>
+        <file>pinkNext.png</file>
+        <file>redNext.png</file>
+        <file>skyNext.png</file>
+        <file>yellowNext.png</file>
+        <file>tetrismark.png</file>
         <file>special.png</file>
     </qresource>
+    <qresource prefix="/font">
+        <file>aerial.ttf</file>
+    </qresource>
+    <qresource prefix="/"/>
 </RCC>
