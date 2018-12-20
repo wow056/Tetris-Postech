@@ -35,6 +35,7 @@ private:
     QPixmap red;
     QPixmap sky;
     QPixmap yellow;
+    QPixmap special;
 
 private slots:
     void updateBoard(QList<Block>);

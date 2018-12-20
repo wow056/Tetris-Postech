@@ -8,8 +8,6 @@
         <file>red.png</file>
         <file>sky.png</file>
         <file>yellow.png</file>
-    </qresource>
-    <qresource prefix="/font">
-        <file>aerial.ttf</file>
+        <file>special.png</file>
     </qresource>
 </RCC>

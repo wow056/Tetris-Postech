@@ -145,7 +145,7 @@ bool Game::isBlockRotate(int direction) const
 		if (tester.isOverlapped(it->pos))
 			return false;
 	}
-	if (tester.isOverlapped(-1, Piece::X_COORDINATE))
+	if (tester.isOverlapped(0, Piece::X_COORDINATE))
 	{
 		return false;
 	}
@@ -182,11 +182,16 @@ int Game::findCompleteLine() const
 
 void Game::deleteLine(int line_index)
 {
+    int itemEffect=0;
 	auto it = savedBlocks.begin();
 	while (it != savedBlocks.end())
 	{
 		if (it->pos.y == line_index)
 		{
+            if(it->iamitem==1)
+            {
+                itemEffect=1;
+            }
 			it = savedBlocks.erase(it);
 		}
 		else
@@ -200,6 +205,28 @@ void Game::deleteLine(int line_index)
 			it->pos.y++;
 	}
     increaseScore(100);
+    //item effect delete bottom one line;
+    if(itemEffect==1)
+    {
+            it = savedBlocks.begin();
+            while (it != savedBlocks.end())
+            {
+                if (it->pos.y == 20)
+                {
+                    it = savedBlocks.erase(it);
+                }
+                else
+                {
+                    it++;
+                }
+            }
+            for (it = savedBlocks.begin(); it != savedBlocks.end(); it++)
+            {
+                if (it->pos.y < 30)
+                    it->pos.y++;
+            }
+    itemEffect=0;
+    }
 	putOutput();
 }
 
