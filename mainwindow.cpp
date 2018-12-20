@@ -248,6 +248,7 @@ void MainWindow::showSpeed(float f)
 
 void MainWindow::gameOver(int score)
 {
+	disconnect(game);
 	game->deleteLater();
 	Dialog_gameOver dialog_gameover(this);
     dialog_gameover.show_score(score);
