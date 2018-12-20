@@ -3,7 +3,7 @@
 #include <algorithm>
 #include <QGridLayout>
 #include <QWidget>
-
+#include <QFontDatabase>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -11,16 +11,10 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
     //QVBoxLayout *layout = new QVBoxLayout(this);
-    QGridLayout *layout = new QGridLayout(this);
+    /*QGridLayout *layout = new QGridLayout(this);
     layout->setHorizontalSpacing(0);
     layout->setVerticalSpacing(0);
-    centralWidget()->setLayout(layout);
-
-    QFont font("NanumSquareEB", 15);
-    test = new QLabel(centralWidget());
-    test->move(20, 350);
-    test->setFont(font);
-    test->setText("SCORE");
+    centralWidget()->setLayout(layout);*/
 
     blue=QPixmap(":/block/blue.png");
     back=QPixmap(":/block/back.png");
@@ -30,6 +24,15 @@ MainWindow::MainWindow(QWidget *parent) :
     red=QPixmap(":/block/red.png");
     sky=QPixmap(":/block/sky.png");
     yellow=QPixmap(":/block/yellow.png");
+    QFontDatabase::addApplicationFont(":/font/aerial.ttf");
+
+    QFont aerial("aerial", 15, QFont::Normal);
+
+
+    test = new QLabel(centralWidget());
+    test->move(350, 20);
+    test->setFont(aerial);
+    test->setText("<font color='white'>SCORE");
 
     for(int i=0; i<10; i++)
     {
