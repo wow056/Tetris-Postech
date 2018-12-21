@@ -1,11 +1,19 @@
 #include "block.h"
 
-Piece::Piece()
+Piece::Piece(bool is_item_mode)
 {
 	_shape = qrand() % 7;
 	_pos = Coordinate(middle_x, -1);
+
+	if (is_item_mode)
+		if (qrand() % 3 == 1)
+			_isitem = true;
+		else
+			_isitem = false;
+	else
+		_isitem = false;
+
 	setRotation(0);
-	if (qrand() % 3 == 1) { _iamitem = 1; }
 }
 
 int Piece::shape()
@@ -81,27 +89,19 @@ QList<Block> Piece::blocks()
 {
 	QList<Block> b_list;
 	for (int i = 0; i < 4; i++)
-    {
+	{
 		Block b;
-		if (i == 1)
-		{
-			if (_iamitem == 1)
-			{
-				b.iamitem = 1;
-				b.color = 0;
-			}
-			else
-			{
-				b.color = _shape + 1;
-			}
-		}
-        else
-        {
 		b.color = _shape + 1;
-        }
 		b.pos = _pos + _blocks[i];
+		b.isitem = false;
 		b_list << b;
-     }
+	}
+	if (_isitem)
+	{
+		int item_index = qrand() % 4;
+		b_list[item_index].isitem = true;
+		b_list[item_index].color = 0;
+	}
 	return b_list;
 }
 
@@ -183,23 +183,23 @@ void Piece::setRotation(int rotation)
 			_blocks[3] = Coordinate(-1, 1);
 			break;
 		case 1:
-			_blocks[0] = Coordinate(-2, 0);
-			_blocks[1] = Coordinate(-1, 0);
-			_blocks[2] = Coordinate(0, 0);
-			_blocks[3] = Coordinate(0, 1);
+			_blocks[0] = Coordinate(-1, 0);
+			_blocks[1] = Coordinate(-0, 0);
+			_blocks[2] = Coordinate(1, 0);
+			_blocks[3] = Coordinate(1, 1);
 			break;
 		case 2:
-			_blocks[0] = Coordinate(1, -1);
-			_blocks[1] = Coordinate(0, -1);
-			_blocks[2] = Coordinate(0, 0);
-			_blocks[3] = Coordinate(0, 1);
+			_blocks[0] = Coordinate(0, -1);
+			_blocks[1] = Coordinate(-1, -1);
+			_blocks[2] = Coordinate(-1, 0);
+			_blocks[3] = Coordinate(-1, 1);
 			break;
 		case 3:
 
-			_blocks[0] = Coordinate(2, 1);
-			_blocks[1] = Coordinate(1, 1);
-			_blocks[2] = Coordinate(0, 0);
-			_blocks[3] = Coordinate(0, 1);
+			_blocks[0] = Coordinate(1, 1);
+			_blocks[1] = Coordinate(0, 1);
+			_blocks[2] = Coordinate(-1, 1);
+			_blocks[3] = Coordinate(-1, 0);
 			break;
 		}
 		break;
@@ -207,22 +207,22 @@ void Piece::setRotation(int rotation)
 		switch (_rotation)
 		{
 		case 0:
-			_blocks[0] = Coordinate(0, -1);
-			_blocks[1] = Coordinate(0, 0);
-			_blocks[2] = Coordinate(0, 1);
-			_blocks[3] = Coordinate(1, 1);
+			_blocks[0] = Coordinate(1, -1);
+			_blocks[1] = Coordinate(1, 0);
+			_blocks[2] = Coordinate(1, 1);
+			_blocks[3] = Coordinate(2, 1);
 			break;
 		case 1:
-			_blocks[0] = Coordinate(-2 ,1);
-			_blocks[1] = Coordinate(-1, 1);
-			_blocks[2] = Coordinate(0, 1);
-			_blocks[3] = Coordinate(0, 0);
+			_blocks[0] = Coordinate(0, 1);
+			_blocks[1] = Coordinate(1, 1);
+			_blocks[2] = Coordinate(2, 1);
+			_blocks[3] = Coordinate(2, 0);
 			break;
 		case 2:
-			_blocks[0] = Coordinate(-1, -1);
-			_blocks[1] = Coordinate(0, -1);
-			_blocks[2] = Coordinate(0,0);
-			_blocks[3] = Coordinate(0,1);
+			_blocks[0] = Coordinate(1, -1);
+			_blocks[1] = Coordinate(2, -1);
+			_blocks[2] = Coordinate(2, 0);
+			_blocks[3] = Coordinate(2, 1);
 			break;
 		case 3:
 

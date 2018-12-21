@@ -8,7 +8,6 @@ Game::Game(int mode, QObject *parent)
 	timer_interbal(600),
 	total_score(0)
 {
-	setNextPiece();
 	timer = new QTimer(this);
 	connect(timer, SIGNAL(timeout()), this, SLOT(update()));
 	timer->start(timer_interbal);
@@ -17,6 +16,24 @@ Game::Game(int mode, QObject *parent)
 		timer_speedmode = new QTimer(this);
 		connect(timer_speedmode, SIGNAL(timeout()), this, SLOT(updateSpeed()));
 		timer_speedmode->start(600);
+	}
+	switch (mode)
+	{
+	case Speed:
+	{
+		timer_speedmode = new QTimer(this);
+		connect(timer_speedmode, SIGNAL(timeout()), this, SLOT(updateSpeed()));
+		timer_speedmode->start(600);
+		break;
+	}
+	case Item:
+	{
+		currentPiece = Piece(true);
+		setNextPiece();
+		break;
+	}
+	default:
+		break;
 	}
 }
 
@@ -35,18 +52,18 @@ void Game::setInput(int input)
 			setBlockMove(Piece::RIGHT);
 		break;
 	case Qt::Key_Up:
-        if (isBlockRotate(Piece::CCW))
-            setBlockRotate(Piece::CCW);
+		if (isBlockRotate(Piece::CCW))
+			setBlockRotate(Piece::CCW);
 		break;
-    case Qt::Key_Down://go down
-        if (isBlockDroppable())
-            setBlockDrop();
+	case Qt::Key_Down://go down
+		if (isBlockDroppable())
+			setBlockDrop();
 		break;
-    case Qt::Key_Space://go fastly down
+	case Qt::Key_Space://go fastly down
 		while (isBlockDroppable())
 			setBlockDrop();
 		update();
-        break;
+		break;
 	}
 }
 
@@ -58,20 +75,20 @@ void Game::update()
 		setBlockDrop();
 	}
 	else
-    {
+	{
 		saveBlock();
-        if(isGameover())
-        {
+		if (isGameover())
+		{
 			timer->stop();
 			if (mode == Speed)
 				timer_speedmode->stop();
-            emit gameOver(total_score);
+			emit gameOver(total_score);
 			return;
-        }
+		}
 
-        setNextPiece();
+		setNextPiece();
 	}
-	while((deleteLineIndex = findCompleteLine()) >= 0)
+	while ((deleteLineIndex = findCompleteLine()) >= 0)
 		deleteLine(deleteLineIndex);
 }
 
@@ -86,14 +103,14 @@ void Game::updateSpeed()
 
 bool Game::isGameover() const
 {
-    //Check whether the Game is over or not
-    for (auto it = savedBlocks.begin(); it != savedBlocks.end(); it++)
-    {
-        if (it->pos.y < 0)
-        {
-            return true;
-        }
-    }
+	//Check whether the Game is over or not
+	for (auto it = savedBlocks.begin(); it != savedBlocks.end(); it++)
+	{
+		if (it->pos.y < 0)
+		{
+			return true;
+		}
+	}
 	return false;
 }
 
@@ -132,7 +149,7 @@ bool Game::isBlockMove(int direction) const
 		if (tester.isOverlapped(it->pos))
 			return false;
 	}
-    if (tester.isOverlapped(-1, Piece::X_COORDINATE))
+	if (tester.isOverlapped(-1, Piece::X_COORDINATE))
 	{
 		return false;
 	}
@@ -182,7 +199,7 @@ int Game::findCompleteLine() const
 	int i, j;
 	for (i = 0; i < board_size.y; i++)
 	{
-        for (j = 0; j < board_size.x; j++)
+		for (j = 0; j < board_size.x; j++)
 		{
 			Block finder;
 			finder.pos.y = i;
@@ -198,51 +215,43 @@ int Game::findCompleteLine() const
 
 void Game::deleteLine(int line_index)
 {
-    int itemEffect=0;
+	bool itemEffect = false;
 	auto it = savedBlocks.begin();
 	while (it != savedBlocks.end())
 	{
 		if (it->pos.y == line_index)
 		{
-            if(it->iamitem==1)
-            {
-                itemEffect=1;
-            }
+			if (it->isitem)
+				itemEffect = true;
 			it = savedBlocks.erase(it);
 		}
 		else
 		{
+			if (it->pos.y < line_index)
+				it->pos.y++;
 			it++;
 		}
 	}
-	for (it = savedBlocks.begin(); it != savedBlocks.end(); it++)
+	increaseScore(100);
+	//item effect delete bottom one line;
+	if (itemEffect)
 	{
-		if (it->pos.y < line_index)
-			it->pos.y++;
+		it = savedBlocks.begin();
+		while (it != savedBlocks.end())
+		{
+			if (it->pos.y == board_size.y)
+			{
+				it = savedBlocks.erase(it);
+			}
+			else
+			{
+				if (it->pos.y < 30)
+					it->pos.y++;
+				it++;
+			}
+		}
+		increaseScore(100);
 	}
-    increaseScore(100);
-    //item effect delete bottom one line;
-    if(itemEffect==1)
-    {
-            it = savedBlocks.begin();
-            while (it != savedBlocks.end())
-            {
-                if (it->pos.y == 20)
-                {
-                    it = savedBlocks.erase(it);
-                }
-                else
-                {
-                    it++;
-                }
-            }
-            for (it = savedBlocks.begin(); it != savedBlocks.end(); it++)
-            {
-                if (it->pos.y < 30)
-                    it->pos.y++;
-            }
-    itemEffect=0;
-    }
 	putOutput();
 }
 
@@ -289,8 +298,8 @@ void Game::saveBlock()
 
 void Game::setNextPiece()
 {
-	nextPiece = Piece();
-    emit updateNextPiece(nextPiece.shape());
+	nextPiece = Piece(mode == Item);
+	emit updateNextPiece(nextPiece.shape());
 }
 
 void Game::putOutput()
@@ -302,6 +311,6 @@ void Game::putOutput()
 
 void Game::increaseScore(int n)
 {
-    total_score += n;
-    updatedScore(total_score);
+	total_score += n;
+	updatedScore(total_score);
 }
