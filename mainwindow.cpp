@@ -88,20 +88,20 @@ MainWindow::MainWindow(QWidget *parent) :
 	mark->resize(tetrismark.size());
 
     scoretext = new QLabel(centralWidget());
-    scoretext->move(380, 280);
+    scoretext->move(370, 280);
     scoretext->setFont(aeriall);
     scoretext->setStyleSheet("color: white; background: rgb(49, 54, 59);");
     scoretext->setFixedWidth(140);
     scoretext->setText("0");
-    scoretext->setAlignment(Qt::AlignCenter | Qt::AlignRight);
+    scoretext->setAlignment(Qt::AlignCenter);
 
 	speedtext = new QLabel(centralWidget());
-	speedtext->move(380, 450);
+    speedtext->move(370, 450);
 	speedtext->setFont(aeriall);
 	speedtext->setStyleSheet("color: white; background: rgb(49, 54, 59);");
 	speedtext->setFixedWidth(140);
 	speedtext->setText("0");
-	speedtext->setAlignment(Qt::AlignCenter | Qt::AlignRight);
+    speedtext->setAlignment(Qt::AlignCenter);
 
     for(int i=0; i<10; i++)
     {
