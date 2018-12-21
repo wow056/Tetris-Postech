@@ -57,6 +57,7 @@ private:
     QPixmap yellowNext;
     QPixmap tetrismark;
     QPixmap special;
+    QPixmap bomb;
 
 private slots:
     void updateBoard(QList<Block>);

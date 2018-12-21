@@ -36,6 +36,7 @@ struct Block{
     Coordinate pos;
     int color;
 	bool isitem;
+	bool isbomb;
     //enum COLOR {RED, GREEN, BLUE};
 	bool operator==(const Block &b) const {
 		return pos == b.pos;
@@ -53,7 +54,7 @@ public:
 	enum SHAPE {SHAPE_I, SHAPE_O, SHAPE_Z, SHAPE_S, SHAPE_J, SHAPE_L, SHAPE_T };
 	enum {X_COORDINATE, Y_COORDINATE};
 
-    Piece(bool is_item_mode = false);
+	Piece(bool is_item_mode = false);
 	int shape();
     void rotate(int direction);
 	void left();
@@ -68,7 +69,10 @@ private:
     Coordinate _pos;
     Coordinate _blocks[4];
 	int _shape;
-    bool _isitem;
+	bool _isitem;
+	bool _isbomb;
+	int item_index;
+	int bomb_index;
     int _rotation;
 };
 

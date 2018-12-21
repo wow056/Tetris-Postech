@@ -4,14 +4,32 @@ Piece::Piece(bool is_item_mode)
 {
 	_shape = qrand() % 7;
 	_pos = Coordinate(middle_x, -1);
-
 	if (is_item_mode)
+	{
 		if (qrand() % 3 == 1)
+		{
+			item_index = qrand() % 4;
 			_isitem = true;
-		else
+		}
+		else 
+		{
 			_isitem = false;
+			if (qrand() % 3 == 1)
+			{
+				bomb_index = qrand() % 4;
+				_isbomb = true;
+			}
+			else
+			{
+				_isbomb = false;
+			}
+		}
+	}
 	else
+	{
 		_isitem = false;
+		_isbomb = false;
+	}
 
 	setRotation(0);
 }
@@ -94,13 +112,18 @@ QList<Block> Piece::blocks()
 		b.color = _shape + 1;
 		b.pos = _pos + _blocks[i];
 		b.isitem = false;
+		b.isbomb = false;
 		b_list << b;
 	}
 	if (_isitem)
 	{
-		int item_index = qrand() % 4;
 		b_list[item_index].isitem = true;
 		b_list[item_index].color = 0;
+	}
+	else if (_isbomb)
+	{
+		b_list[bomb_index].isitem = true;
+		b_list[bomb_index].color = 8;
 	}
 	return b_list;
 }
@@ -195,7 +218,6 @@ void Piece::setRotation(int rotation)
 			_blocks[3] = Coordinate(-1, 1);
 			break;
 		case 3:
-
 			_blocks[0] = Coordinate(1, 1);
 			_blocks[1] = Coordinate(0, 1);
 			_blocks[2] = Coordinate(-1, 1);

@@ -18,6 +18,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     QFont font("NanumSquareEB", 15);
 
+    bomb=QPixmap(":/block/bomb.png");
     special=QPixmap(":/block/special.png");
     blue=QPixmap(":/block/blue.png");
     back=QPixmap(":/block/back.png");
@@ -125,9 +126,9 @@ void MainWindow::loadGame()
 {
 	dialog_select select;
 	select.exec();
-	game = new Game(select.result(), this);
-	connect(game, &Game::updateBoard, this, &MainWindow::updateBoard);
-	connect(game, &Game::gameOver, this, &MainWindow::gameOver);
+    game = new Game(select.result(), this);
+    connect(game, &Game::updateBoard, this, &MainWindow::updateBoard);
+    connect(game, &Game::gameOver, this, &MainWindow::gameOver);
 	connect(game, &Game::updateNextPiece, this, &MainWindow::showNextBlock);
 	connect(game, &Game::updatedScore, this, &MainWindow::showScore);
 	connect(game, &Game::updatedSpeed, this, &MainWindow::showSpeed);
@@ -158,11 +159,13 @@ QPixmap MainWindow::blockcolor(int n)
         return yellow;
     case 7:
         return blue;
+    case 8:
+        return bomb;
     }
 }
 
 void MainWindow::updateBoard(QList<Block> l)
-{
+{    
     std::sort(l.begin(), l.end());
     qDebug() << "updated main window";
     auto it = l.begin();

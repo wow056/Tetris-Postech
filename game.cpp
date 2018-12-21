@@ -85,7 +85,6 @@ void Game::update()
 			emit gameOver(total_score);
 			return;
 		}
-
 		setNextPiece();
 	}
 	while ((deleteLineIndex = findCompleteLine()) >= 0)
@@ -227,11 +226,12 @@ void Game::deleteLine(int line_index)
 		}
 		else
 		{
-			if (it->pos.y < line_index)
-				it->pos.y++;
 			it++;
 		}
 	}
+	for (auto it = savedBlocks.begin(); it != savedBlocks.end(); it++)
+		if (it->pos.y < line_index)
+			it->pos.y++;
 	increaseScore(100);
 	//item effect delete bottom one line;
 	if (itemEffect)
@@ -240,19 +240,20 @@ void Game::deleteLine(int line_index)
 		while (it != savedBlocks.end())
 		{
 			if (it->pos.y == board_size.y)
-			{
 				it = savedBlocks.erase(it);
-			}
 			else
-			{
-				if (it->pos.y < 30)
-					it->pos.y++;
 				it++;
-			}
 		}
-		increaseScore(100);
+		increaseScore(100); 
+		for (auto it = savedBlocks.begin(); it != savedBlocks.end(); it++)
+			if (it->pos.y < board_size.y)
+				it->pos.y++;
+		timer->stop();
+		pause_timer.singleShot(1000, timer, SLOT(start()));
 	}
-	putOutput();
+	else {
+		putOutput();
+	}
 }
 
 void Game::setBlockDrop()

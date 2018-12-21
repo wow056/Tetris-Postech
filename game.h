@@ -45,7 +45,7 @@ private:
     void saveBlock();
 
     void setNextPiece();				//함수 마지막에 sendNextBlock 시그널 호출
-	void putOutput();					//함수 마지막에 updateBoard 시그널 호출
+    void putOutput();					//함수 마지막에 updateBoard 시그널 호출
 	void increaseScore(int n);
 
 	const static float SpeedIncrement;
@@ -53,6 +53,7 @@ private:
     Piece nextPiece;
     Piece currentPiece;
     QList<Block> savedBlocks;
+	QTimer pause_timer;
     QTimer *timer;
 	QTimer *timer_speedmode;
     int timer_interbal;
