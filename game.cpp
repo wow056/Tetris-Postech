@@ -96,8 +96,15 @@ void Game::updateSpeed()
 	int interval = timer->interval();
 	float speed = 100000.0 / interval;
 	speed += SpeedIncrement;
-	timer->setInterval(100000 / speed);
+	timer->setInterval(100000 / speed); 
 	emit updatedSpeed(speed);
+}
+
+void Game::restartSignals()
+{
+	blockSignals(false);
+	timer->start();
+	pause_timer->deleteLater();
 }
 
 bool Game::isGameover() const
@@ -233,6 +240,7 @@ void Game::deleteLine(int line_index)
 		if (it->pos.y < line_index)
 			it->pos.y++;
 	increaseScore(100);
+	putOutput();
 	//item effect delete bottom one line;
 	if (itemEffect)
 	{
@@ -244,15 +252,15 @@ void Game::deleteLine(int line_index)
 			else
 				it++;
 		}
-		increaseScore(100); 
+		increaseScore(100);
+
 		for (auto it = savedBlocks.begin(); it != savedBlocks.end(); it++)
 			if (it->pos.y < board_size.y)
 				it->pos.y++;
+		pause_timer = new QTimer();
+		blockSignals(true);
 		timer->stop();
-		pause_timer.singleShot(1000, timer, SLOT(start()));
-	}
-	else {
-		putOutput();
+		pause_timer->singleShot(500, this, SLOT(restartSignals()));
 	}
 }
 

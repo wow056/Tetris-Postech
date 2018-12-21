@@ -24,6 +24,7 @@ public:
 private slots:
 	void update();
 	void updateSpeed();
+	void restartSignals();
 signals:
     void updateBoard(QList<Block>);
     void gameOver(int score);
@@ -53,7 +54,7 @@ private:
     Piece nextPiece;
     Piece currentPiece;
     QList<Block> savedBlocks;
-	QTimer pause_timer;
+	QTimer *pause_timer;
     QTimer *timer;
 	QTimer *timer_speedmode;
     int timer_interbal;
