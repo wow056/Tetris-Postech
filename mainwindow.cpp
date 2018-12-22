@@ -126,6 +126,19 @@ void MainWindow::loadGame()
 {
 	dialog_select select;
 	select.exec();
+    int result = select.result();
+    switch(result)
+    {
+    case Game::Normal:
+        gamemode->setText("<font color='white'>NORMAL");
+        break;
+    case Game::Item:
+        gamemode->setText("<font color='white'>ITEM");
+        break;
+    case Game::Speed:
+        gamemode->setText("<font color='white'>SPEED");
+        break;
+    }
     game = new Game(select.result(), this);
     connect(game, &Game::updateBoard, this, &MainWindow::updateBoard);
     connect(game, &Game::gameOver, this, &MainWindow::gameOver);

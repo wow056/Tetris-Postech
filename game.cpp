@@ -1,7 +1,7 @@
 #include "game.h"
 
 const Coordinate Game::board_size = Coordinate(GAME_WIDTH, GAME_HEIGHT);
-const float Game::SpeedIncrement = 0.001;
+const float Game::SpeedIncrement = 100;
 
 Game::Game(int mode, QObject *parent)
 	:QObject(parent), mode(mode),
@@ -96,7 +96,7 @@ void Game::updateSpeed()
 	int interval = timer->interval();
 	float speed = 100000.0 / interval;
 	speed += SpeedIncrement;
-	timer->setInterval(100000 / speed); 
+	timer->setInterval(100000 / speed);
 	emit updatedSpeed(speed);
 }
 
@@ -222,13 +222,20 @@ int Game::findCompleteLine() const
 void Game::deleteLine(int line_index)
 {
 	bool itemEffect = false;
+    bool bombEffect = false;
 	auto it = savedBlocks.begin();
+    QList<Coordinate> bomb_posList;
 	while (it != savedBlocks.end())
 	{
 		if (it->pos.y == line_index)
 		{
 			if (it->isitem)
 				itemEffect = true;
+            if(it->isbomb)
+            {
+                bomb_posList << it->pos;
+                bombEffect=true;
+            }
 			it = savedBlocks.erase(it);
 		}
 		else
@@ -253,14 +260,58 @@ void Game::deleteLine(int line_index)
 				it++;
 		}
 		increaseScore(100);
+		putOutput();
 
 		for (auto it = savedBlocks.begin(); it != savedBlocks.end(); it++)
 			if (it->pos.y < board_size.y)
+			{
 				it->pos.y++;
+			}
 		pause_timer = new QTimer();
 		blockSignals(true);
 		timer->stop();
 		pause_timer->singleShot(500, this, SLOT(restartSignals()));
+	}
+    else if(bombEffect)
+    {
+        for(auto it1 = bomb_posList.begin();it1 != bomb_posList.end(); it1++){
+           Coordinate bomb_pos = *it1;
+        it = savedBlocks.begin();
+        while (it != savedBlocks.end())
+        {
+            if(it->pos.x==bomb_pos.x-1&&it->pos.y==bomb_pos.y-1)
+                it = savedBlocks.erase(it);
+            else if(it->pos.x==bomb_pos.x&&it->pos.y==bomb_pos.y-1)
+                it = savedBlocks.erase(it);
+            else if(it->pos.x==bomb_pos.x+1&&it->pos.y==bomb_pos.y-1)
+                it = savedBlocks.erase(it);
+            else if(it->pos.x==bomb_pos.x-1&&it->pos.y==bomb_pos.y+1)
+                it = savedBlocks.erase(it);
+            else if(it->pos.x==bomb_pos.x&&it->pos.y==bomb_pos.y+1)
+                it = savedBlocks.erase(it);
+            else if(it->pos.x==bomb_pos.x+1&&it->pos.y==bomb_pos.y+1)
+                it = savedBlocks.erase(it);
+            else
+                it++;
+			putOutput();
+        }
+        for (auto it = savedBlocks.begin(); it != savedBlocks.end(); it++){
+            if (it->pos.x==bomb_pos.x-1 ||it->pos.x==bomb_pos.x||it->pos.x==bomb_pos.x+1)
+            {
+                if(it->pos.y<bomb_pos.y+2)
+				{
+					it->pos.y++;
+				}
+            }
+        }
+        }
+		pause_timer = new QTimer();
+		blockSignals(true);
+		timer->stop();
+		pause_timer->singleShot(500, this, SLOT(restartSignals()));
+    }
+	else {
+		putOutput();
 	}
 }
 

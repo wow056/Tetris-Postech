@@ -6,7 +6,7 @@ Piece::Piece(bool is_item_mode)
 	_pos = Coordinate(middle_x, -1);
 	if (is_item_mode)
 	{
-		if (qrand() % 3 == 1)
+        if (qrand() % 100 < 10)
 		{
 			item_index = qrand() % 4;
 			_isitem = true;
@@ -14,7 +14,7 @@ Piece::Piece(bool is_item_mode)
 		else 
 		{
 			_isitem = false;
-			if (qrand() % 3 == 1)
+            if (qrand() % 100 < 20)
 			{
 				bomb_index = qrand() % 4;
 				_isbomb = true;
@@ -122,7 +122,7 @@ QList<Block> Piece::blocks()
 	}
 	else if (_isbomb)
 	{
-		b_list[bomb_index].isitem = true;
+        b_list[bomb_index].isbomb = true;
 		b_list[bomb_index].color = 8;
 	}
 	return b_list;
